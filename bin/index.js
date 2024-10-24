@@ -7,7 +7,7 @@ const { User, Brand, Model } = require("../models");
 
 const dbManager = require("../db/database");
 
-const app = new express()
+const app = require("./app");
 
 const PORT = process.env.PORT;
 
@@ -37,21 +37,21 @@ const enterData = async () => {
     await Model.create({
       name: "Pegasus 34",
       description: "Universal model for everyday runs.",
-      iamge: "pegasus34.jpg",
+      image: "pegasus34.jpg",
       BrandId: brand1.id,
     });
   
     await Model.create({
         name: "Pegasus Trail",
         description: "Superb model for offroad and trail running.",
-        iamge: "pegasustrail.jpg",
+        image: "pegasustrail.jpg",
         BrandId: brand1.id,
       });
 
     await Model.create({
         name: "Mach 5",
         description: "For fast asphalt runs and competitions.",
-        iamge: "mach5.jpg",
+        image: "mach5.jpg",
         BrandId: brand2.id,
       });
     
@@ -69,7 +69,7 @@ dbManager
     app.listen(PORT);
   })
   .then(() => console.log("Running Shoes Wharehouse app listening on port ", PORT))
-  .then(enterData)
+//  .then(enterData)
   .catch((err) => {
     console.log(err);
   });
