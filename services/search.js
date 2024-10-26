@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 const express = require("express");
 
-const { Users } = require("../models/index");
+const { User } = require("../models/index");
 const HttpError = require("./HttpError");
 
 const router = express.Router();
@@ -14,7 +14,7 @@ router.get("/users/email/:email", async (req, res, next) => {
       return next(new HttpError("Email parameter is required", 400));
     }
 
-    const users = await Users.findAll({
+    const users = await User.findAll({
       where: {
         email: {
           [Op.like]: "%" + email + "%",
@@ -40,7 +40,7 @@ router.get("/users/name/:name", async (req, res, next) => {
       return next(new HttpError("Name parameter is required", 400));
     }
 
-    const users = await Users.findAll({
+    const users = await User.findAll({
       where: {
         name: {
           [Op.like]: "%" + name + "%",

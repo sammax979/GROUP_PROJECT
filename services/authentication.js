@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { searchByName } = require("./search");
-const { Users } = require("../models");
+const { User } = require("../models");
 const HttpError = require("./HttpError");
 const { Op } = require("sequelize");
 require("dotenv").config();
@@ -11,7 +11,7 @@ const secretKey = process.env.SECRET_KEY;
 const createToken = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await Users.findOne({
+    const user = await User.findOne({
       where: {
         email: {
           [Op.like]: email,
