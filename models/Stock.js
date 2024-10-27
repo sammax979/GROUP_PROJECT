@@ -2,11 +2,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db/database");
 
 const Stock = sequelize.define("Stock", {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
   size: {
     type: DataTypes.STRING,
     allowNull: false,

@@ -1,4 +1,4 @@
-const { Stock } = require("../models/index");
+const { Order } = require("../models/index");
 const HttpError = require("../services/HttpError");
 
 const gettingAll = async (req, res, next) => {

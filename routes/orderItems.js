@@ -5,7 +5,7 @@ const {
   updating,
   deleting,
   creating,
-} = require("../controllers/orderItemController");
+} = require("../controllers/orderItemsController");
 
 const router = express.Router();
 

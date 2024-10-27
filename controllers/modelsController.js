@@ -3,28 +3,12 @@ const HttpError = require("../services/HttpError");
 
 const gettingAll = async (req, res, next) => {
   try {
-    const rentals = await Model.findAll({
-      include: [
-        {
-          model: Movie,
-          attributes: ["title", "releaseYear"],
-          include: [
-            {
-              model: Genre,
-              attributes: ["genreName"],
-              through: { attributes: [] },
-            },
-          ],
-        },
-        { model: Customer, attributes: ["name"] },
-      ],
-      attributes: ["id", "rentalDate", "returnDate"],
-    });
+    const models = await Model.findAll();
 
-    if (rentals.length === 0) {
-      return res.status(200).json("No rentals history yet");
+    if (models.length === 0) {
+      return res.status(200).json("No Models found.");
     }
-    res.status(200).json(rentals);
+    res.status(200).json(models);
   } catch (err) {
     next(err);
   }

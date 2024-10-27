@@ -63,13 +63,15 @@ const updating = async (req, res, next) => {
     const id = req.params.id;
     const { name, email, password } = req.body;
     console.log(name, email);
-    await User.update(
-      { name, email, password },
+    const newPassword = await bcrypt.hash(password, saltRounds);
+    
+    const [updated] = await User.update(
+      { name, email, newPassword }, 
       {
         where: { id },
       }
     );
-    if (!updated) {
+    if ( updated === 0 ) {
       return next(new HttpError("User not found or update failed", 404));
     }
     res.status(200).json("Updated successfully");
@@ -81,8 +83,8 @@ const updating = async (req, res, next) => {
 const deleting = async (req, res, next) => {
   try {
     const id = req.params.id;
-    User.destroy({ where: { id } });
-    if (!deleted) {
+    const deleted = await User.destroy({ where: { id } });
+    if (deleted === 0) {
       return next(new HttpError("User not found or deletion failed", 404));
     }
     res.status(200).json("User deleted successfully");

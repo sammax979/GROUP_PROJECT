@@ -12,7 +12,7 @@ Model.belongsTo(Brand);
 Model.hasMany(Stock);
 Stock.belongsTo(Model);
 
-Stock.hasOne(OrderItem);
+Stock.hasMany(OrderItem);
 OrderItem.belongsTo(Stock);
 
 User.hasMany(Order);
