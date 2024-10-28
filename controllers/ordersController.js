@@ -42,6 +42,7 @@ const getting = async (req, res, next) => {
   }
 };
 
+
 const updating = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -76,6 +77,45 @@ const deleting = async (req, res, next) => {
   }
 };
 
+const allItems = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const order = await Order.findByPk(id, {
+      attributes: ["id", "date"],
+      include: [
+        {
+          model: OrderItem,
+          attributes: ["price", "count"],
+          include: [
+            {
+              model: Stock,
+              attributes: ["size"],
+              include: [
+                {
+                  model: Model,
+                  attributes: ["name"],
+                  include: [
+                    {
+                      model: Brand,
+                      attributes: ["name"]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+
+    if (!order) {
+      return next(new HttpError("Couldn't find order", 404));
+    }
+    res.status(200).json(order);
+  } catch (err) {
+    next(err);
+  }
+};
 
 
 module.exports = {
@@ -84,4 +124,5 @@ module.exports = {
   updating,
   deleting,
   creating,
+  allItems,
 };
