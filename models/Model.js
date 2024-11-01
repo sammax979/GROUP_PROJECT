@@ -7,8 +7,8 @@ const Model = sequelize.define("Model", {
     allowNull: false,
     validate: {
       len: {
-        args: [3, 18],
-        msg: "Name must be between 3 and 18 characters long",
+        args: [3, 32],
+        msg: "Name must be between 3 and 32 characters long",
       },
     },
   },
@@ -17,15 +17,15 @@ const Model = sequelize.define("Model", {
     allowNull: false,
     len: {
       args: [10, 200],
-      msg: "Name must be between 3 and 18 characters long",
+      msg: "Description must be between 10 and 200 characters long",
     },
   },
   image: {
     type: DataTypes.TEXT,
     allowNull: true,
     len: {
-      args: [5, 18],
-      msg: "Name must be between 5 and 18 characters long",
+      args: [5, 32],
+      msg: "Image file name must be between 5 and 32 characters long",
     },
   },
   price: {

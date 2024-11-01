@@ -46,7 +46,7 @@ app.use("/api/stock", stockRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/orderitems", orderItemsRouter);
 
-//app.use(errorLogger);
+// app.use(errorLogger);
 
 module.exports = app;
 
