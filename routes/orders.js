@@ -13,6 +13,6 @@ const router = express.Router();
 router.route("/").get(gettingAll).post(creating);
 router.route("/:id").get(getting).put(updating).delete(deleting);
 
-router.get("/:id/allitems", allItems);
+router.get("/:id/info", allItems);
 
 module.exports = router;

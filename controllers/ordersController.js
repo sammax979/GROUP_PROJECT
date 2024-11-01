@@ -1,4 +1,9 @@
 const { Order } = require("../models/index");
+const { OrderItem } = require("../models/index");
+const { Stock } = require("../models/index");
+const { Model } = require("../models/index");
+const { Brand } = require("../models/index");
+
 const HttpError = require("../services/HttpError");
 
 const gettingAll = async (req, res, next) => {
@@ -105,12 +110,25 @@ const allItems = async (req, res, next) => {
             }
           ]
         }
-      ]
+      ]//,
+      //raw: true,  // only field
     });
 
     if (!order) {
       return next(new HttpError("Couldn't find order", 404));
     }
+    
+    // all summa order
+    let totalSum = 0;
+
+    if (order.OrderItems) {
+      totalSum = order.OrderItems.reduce((sum, item) => {
+        return sum + (item.price * item.count);
+      }, 0);
+    }
+    // Add totalSum to order 
+    order.dataValues.totalSum = totalSum;
+
     res.status(200).json(order);
   } catch (err) {
     next(err);

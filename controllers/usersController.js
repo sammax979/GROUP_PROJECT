@@ -1,4 +1,10 @@
 const { User } = require("../models/index");
+const { Order } = require("../models/index");
+const { OrderItem } = require("../models/index");
+const { Stock } = require("../models/index");
+const { Model } = require("../models/index");
+const { Brand } = require("../models/index");
+
 const HttpError = require("../services/HttpError");
 
 const bcrypt = require("bcrypt");
@@ -118,6 +124,74 @@ const deleting = async (req, res, next) => {
 //   }
 // };
 
+const allOrdersUser = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const orders = await Order.findAll({
+      where: { userId },
+      attributes: ["id", "date"],
+      include: [
+        {
+          model: OrderItem,
+          attributes: ["price", "count"],
+          include: [
+            {
+              model: Stock,
+              attributes: ["size"],
+              include: [
+                {
+                  model: Model,
+                  attributes: ["name"],
+                  include: [
+                    {
+                      model: Brand,
+                      attributes: ["name"]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+
+    if (!orders || orders.length === 0) {
+      return next(new HttpError("No orders found for this user", 404));
+    }
+
+    // Calculate total sum for each order
+    const orderHistory = orders.map(order => {
+      let totalSum = 0;
+
+      if (order.OrderItems) {
+        totalSum = order.OrderItems.reduce((sum, item) => {
+          return sum + item.price * item.count;
+        }, 0);
+      }
+
+      // Include the total sum in each order
+      return {
+        id: order.id,
+        date: order.date,
+        totalSum,
+        items: order.OrderItems.map(item => ({
+          price: item.price,
+          count: item.count,
+          size: item.Stock.size,
+          modelName: item.Stock.Model.name,
+          brandName: item.Stock.Model.Brand.name
+        }))
+      };
+    });
+
+    res.status(200).json(orderHistory);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 module.exports = {
   //allMovies,
   getting,
@@ -125,4 +199,5 @@ module.exports = {
   updating,
   deleting,
   creating,
+  allOrdersUser,
 };
