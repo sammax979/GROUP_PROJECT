@@ -33,9 +33,20 @@
         <img src="<%= '../img/' + models[i].image%>" alt="logo" style="width:100%">
         <h3>EUR <%= models[i].price %></h3>
         <p><%= models[i].description %></p>
+        <div style="display:inline-block;">
+          <label for="shoe-sz">Size:</label>
+          <select name="shoe-size" id="shoe-size" style="margin-left:5px;">
+            <option value="0">---</option>
+            <option value="4">43.5</option>
+            <option value="5">44</option>
+            <option value="6">45.5</option>
+            <option value="7">45</option>
+          </select>
+          <button name="button" style="margin-left:40px;"> Add to Cart </button>
+        </div>
       </div>
     <%}%>
-  </div>
+</div>
 </div>
 </body>
 </html>

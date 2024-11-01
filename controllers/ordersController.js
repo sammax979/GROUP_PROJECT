@@ -72,9 +72,9 @@ const deleting = async (req, res, next) => {
     const id = req.params.id;
 
     // check OrderId in table OrderItem
-    const orderIdin = await OrderId.findOne({ where: { orderId: id } });
-    if (orderIdin) {
-      return res.status(400).json({ message: "Cannot delete Order because it is associated with OrderItem. First you need to delete OrderId in OrderItem" });
+    const orderItem = await OrderItem.findOne({ where: { orderId: id } });
+    if ( orderItem ) {
+      return res.status(500).json({ message: "Cannot delete Order because it is associated with OrderItem. First you need to delete OrderId in OrderItem" });
     }    
     
     const deleted = await Order.destroy({ where: { id } });
