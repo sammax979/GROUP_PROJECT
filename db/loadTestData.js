@@ -151,6 +151,19 @@ const enterData = async () => {
         OrderId: order.id, 
         StockId: stock3.id, 
     });
+
+     // create Order2
+       const order2 = await Order.create({ 
+        UserId: user1.id,
+    });
+
+    // create OrderItem
+    await OrderItem.create({
+        price: 75,
+        count: 2,
+        OrderId: order2.id, 
+        StockId: stock5.id, 
+    });
 };
 
 module.exports = { enterData };
