@@ -1,6 +1,7 @@
 const { Model } = require("../models/index");
 const HttpError = require("../services/HttpError");
 
+// select all Models
 const gettingAll = async (req, res, next) => {
   try {
     const models = await Model.findAll();
@@ -14,6 +15,7 @@ const gettingAll = async (req, res, next) => {
   }
 };
 
+// create a new Model
 const creating = async (req, res, next) => {
   try {
     const { name, description, image, BrandId } = req.body;
@@ -21,7 +23,6 @@ const creating = async (req, res, next) => {
     if (!name || !description || !image || !BrandId) {
       return next(new HttpError("Not enough data for creating model", 400));
     }
-
     const model = await Model.create({
       name,
       description,
@@ -35,6 +36,7 @@ const creating = async (req, res, next) => {
   }
 };
 
+// get Model by its Id
 const getting = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -48,25 +50,22 @@ const getting = async (req, res, next) => {
   }
 };
 
-// const returningMovie = async (req, res, next) => {
-//   try {
-//     const id = req.params.id;
-//     const [updated] = await Rental.update(
-//       { returnDate: new Date() },
-//       {
-//         where: { id },
-//       }
-//     );
+// get Models by brand Id
+const getModelsbyBrandId = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const models = await Model.findAll({ where: { brandId: id } });
 
-//     if (updated === 0) {
-//       return next(new HttpError("Rental not found", 404));
-//     }
-//     res.status(200).json("Updated successfully");
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    if (models.length === 0) {
+      return res.status(200).json("No Models found for the Brand");
+    }
+    res.status(200).json(models);
+  } catch (err) {
+    next(err);
+  }
+};
 
+// delete Model by Id
 const deleting = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -84,7 +83,7 @@ const deleting = async (req, res, next) => {
 module.exports = {
   getting,
   gettingAll,
-//  returningMovie,
+  getModelsbyBrandId,
   deleting,
   creating,
 };

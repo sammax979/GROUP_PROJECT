@@ -11,12 +11,15 @@ const stockRouter = require("../routes/stock");
 const ordersRouter = require("../routes/orders");
 const orderItemsRouter = require("../routes/orderItems");
 
+const homeRouter = require('../routes/home');
+
 // const { errorLogger } = require("./services/errorHandler");
 // const { creating } = require("./controllers/customersController");
 
 const app = express();
 
 app.use(express.json());
+app.use(express.static("public"));
 
 //app.use(cookieParser());
 
@@ -32,12 +35,16 @@ app.use(express.json());
 
 //app.use(checkToken);
 
-app.use("/users", usersRouter);
-app.use("/brands", brandsRouter);
-app.use("/models", modelsRouter);
-app.use("/stock", stockRouter);
-app.use("/orders", ordersRouter);
-app.use("/orderitems", orderItemsRouter);
+// HTML routes
+app.use('/www', homeRouter)
+
+/// API routes
+app.use("/api/users", usersRouter);
+app.use("/api/brands", brandsRouter);
+app.use("/api/models", modelsRouter);
+app.use("/api/stock", stockRouter);
+app.use("/api/orders", ordersRouter);
+app.use("/api/orderitems", orderItemsRouter);
 
 //app.use(errorLogger);
 

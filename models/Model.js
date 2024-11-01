@@ -28,6 +28,10 @@ const Model = sequelize.define("Model", {
       msg: "Name must be between 5 and 18 characters long",
     },
   },
+  price: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
 });
 
 module.exports = Model;

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('layouts/header'); -%>
+
+<body>
+
+<!-- Top -->
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+    <div class="w3-center w3-padding-16">>Runing Shoes Wharehouse</div>
+  </div>
+</div>
+  
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+
+  <div class="w3-row-padding w3-padding-16 w3-center" id="brands">
+    <% for (var i = 0; i < brands.length; i++){ %>
+      <div class="w3-quarter">
+      <img src="<%= '../img/' + brands[i].logo%>" alt="logo" style="width:100%">
+      <h3><%= brands[i].name %></h3>
+      <p><%= brands[i].description %></p>
+      <% if ( num_models[i] > 0 ) { %>
+        <a href="<%= '/www/' + brands[i].id.toString()%>"><%= num_models[i]%> models available..</a>
+      <%}%>
+    </div>
+    <%}%>
+  </div>
+
+  <div class="w3-row-padding w3-padding-16 w3-center" id="models">
+    <% for (var i = 0; i < models.length; i++){ %>
+      <div class="w3-quarter">
+        <h3><%= models[i].name %></h3>
+        <img src="<%= '../img/' + models[i].image%>" alt="logo" style="width:100%">
+        <h3>EUR <%= models[i].price %></h3>
+        <p><%= models[i].description %></p>
+      </div>
+    <%}%>
+  </div>
+</div>
+</body>
+</html>
