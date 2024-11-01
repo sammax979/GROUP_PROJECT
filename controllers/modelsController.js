@@ -1,4 +1,6 @@
 const { Model } = require("../models/index");
+const { Stock } = require("../models/index");
+
 const HttpError = require("../services/HttpError");
 
 // select all Models
@@ -69,6 +71,13 @@ const getModelsbyBrandId = async (req, res, next) => {
 const deleting = async (req, res, next) => {
   try {
     const id = req.params.id;
+
+    // check ModelId in table Stock
+    const stocModelId = await Stock.findOne({ where: { modelId: id } });
+    if (stocModelId) {
+      return res.status(400).json({ message: "Cannot delete Model because it is associated with Stock. First you need to delete ModelId in Stock" });
+    }    
+    
     const deleted = await Model.destroy({ where: { id } });
 
     if (deleted === 0) {
