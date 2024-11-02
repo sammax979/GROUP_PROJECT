@@ -17,10 +17,11 @@ We have used the following technologies/libraries/packages for this application:
 * Embedded JavaScript (EJS) - simple templating engine to generate HTML.
 * Sequelize -  to assist querying the database.
 * Bcrypt - to hash passwords.
+* Helmet - to secure Express apps by setting HTTP response headers.
 * Cookie-parser - to parse HTTP request cookies
 * Commander - to parse command line parameters.
 * Jsonwebtoken
-* Cors
+* Cors - to control access to resources on different domains.
 * Dotenv -to store and access securely app parameters, API keys, passwords.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

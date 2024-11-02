@@ -1,7 +1,10 @@
 const express = require("express");
-// const helmet = require("helmet");
+const helmet = require("helmet");
 // const cookieParser = require("cookie-parser");
-// const cors = require("cors");
+const cors = require("cors");
+
+const path = require('path');
+require("dotenv").config({path: path.join(__dirname, '../.env')});
 
 // const { createToken, checkToken } = require("./services/authentication");
 const usersRouter = require("../routes/users");
@@ -23,13 +26,18 @@ app.use(express.static("public"));
 
 //app.use(cookieParser());
 
-// app.use(
-//   cors({
-//     origin: "*",
-//     credentials: true,
-//   })
-// );
-// app.use(helmet());
+const PORT = process.env.PORT;
+let corsOrigin = "127.0.0.1:" + PORT.toString();
+
+app.use(
+  cors({
+    origin: corsOrigin,
+    credentials: true,
+  })
+);
+
+app.use(helmet());
+
 // app.post("/token", createToken);
 // app.post("/customer", creating);
 
