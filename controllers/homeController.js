@@ -1,6 +1,6 @@
 
 
-const { Brand, Model, Order, OrderItem } = require("../models/index");
+const { Brand, Model, Stock, Order, OrderItem } = require("../models/index");
 const HttpError = require("../services/HttpError");
 
 
@@ -97,7 +97,40 @@ const getModelsByBrand = async (req, res, next) => {
   }
 };
 
+
+const getModelById = async (req, res, next) => {
+  try {
+    // get model by Id
+    const model_id = req.params.id;
+    const models = await Model.findAll({
+      where: { id: model_id },
+      include: [{
+          model: Brand,
+          attributes: ["name"]
+        },
+      ]
+    });
+    if ( models.length === 0 ) {
+      return next(new HttpError("Couldn't find model", 404));
+    };
+    const model = models[0];
+
+    // get availables sizes for given Model from Stock
+    const modelSizes = await Stock.findAll({
+      where: { ModelId: model_id },
+      order: ['size']
+    });
+
+    res.render('model', {
+      model, modelSizes
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
     homepage,
     getModelsByBrand,
+    getModelById,
 };

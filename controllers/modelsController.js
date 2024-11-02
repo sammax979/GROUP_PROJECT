@@ -1,5 +1,4 @@
-const { Model } = require("../models/index");
-const { Stock } = require("../models/index");
+const { Model, Stock, Brand } = require("../models/index");
 
 const HttpError = require("../services/HttpError");
 
@@ -43,9 +42,21 @@ const getting = async (req, res, next) => {
   try {
     const id = req.params.id;
     const model = await Model.findByPk(id);
+
+    // alternative - get Model with brand Name
+    // const model_id = req.params.id;
+    // const model = await Model.findAll({
+    //   where: { id: model_id },
+    //   include: [{
+    //       model: Brand,
+    //       attributes: ["name"]
+    //     },
+    //   ]
+    // });
+
     if (!model) {
-      return next(new HttpError("Couldn't find model", 404));
-    }
+    return next(new HttpError("Couldn't find model", 404));
+  }
     res.status(200).json(model);
   } catch (err) {
     next(err);
@@ -73,9 +84,9 @@ const deleting = async (req, res, next) => {
     const id = req.params.id;
 
     // check ModelId in table Stock
-    const stocModelId = await Stock.findOne({ where: { modelId: id } });
-    if (stocModelId) {
-      return res.status(400).json({ message: "Cannot delete Model because it is associated with Stock. First you need to delete ModelId in Stock" });
+    const stockModel = await Stock.findOne({ where: { modelId: id } });
+    if ( stockModel ) {
+      return res.status(500).json({ message: "Cannot delete Model because it is associated with Stock. First you need to delete ModelId in Stock" });
     }    
     
     const deleted = await Model.destroy({ where: { id } });

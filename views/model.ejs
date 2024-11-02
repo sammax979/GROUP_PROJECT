@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/header'); -%>
+<body>
+
+<!-- Top -->
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+    <div class="w3-center w3-padding-16">Runing Shoes Wharehouse</div>
+  </div>
+</div>
+  
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:50px">
+
+  <div class="w3-row-padding w3-padding-16 w3-center" id="model">
+      <div class="w3-quarter">
+        <h3><%= model.name %> by <%= model.Brand.name %></h3>
+        <img src="<%= '/img/' + model.image%>" alt="logo" width="100%">
+        <h3>EUR <%= model.price %></h3>
+        <p><%= model.description %></p>
+        <div style="display:inline-block;">
+          <% if ( modelSizes.length > 0 ){ %>
+            <label for="shoe-sz">Size:</label>
+            <select name="shoe-size" id="shoe-size" style="margin-left:5px;">
+              <option value="0">---</option>
+              <% for (let i = 0; i < modelSizes.length; ++i){ %>
+                <option value="<%= modelSizes[i].id %>"><%= modelSizes[i].size %></option>
+              <%}%>
+            </select>
+            <button name="button" style="margin-left:40px;"> Add to Cart </button>
+          <%} else {%>
+            <p style="color:red;">Not in stock now.</p>
+          <%}%>
+          <% for (let i = 0; i < modelSizes.length; i++){ %>
+            <p><% modelSizes[i].id.toString() %>  <% modelSizes[i].size.toString() %></p>
+          <%}%>
+          <p><a href="<%= '/www/' + model.BrandId.toString()%>">< Back to Main Page</a></p>
+          </div> 
+      </div>
+</div>
+</div>
+</body>
+</html>

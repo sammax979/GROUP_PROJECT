@@ -11,7 +11,7 @@
 </div>
   
 <!-- !PAGE CONTENT! -->
-<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:50px">
 
   <div class="w3-row-padding w3-padding-16 w3-center" id="brands">
     <% for (var i = 0; i < brands.length; i++){ %>
@@ -30,20 +30,9 @@
     <% for (var i = 0; i < models.length; i++){ %>
       <div class="w3-quarter">
         <h3><%= models[i].name %></h3>
-        <img src="<%= '../img/' + models[i].image%>" alt="logo" style="width:100%">
+        <a href="<%= '/www/model/' + models[i].id.toString()%>"><img src="<%= '../img/' + models[i].image%>" alt="logo" style="width:100%"></a>
         <h3>EUR <%= models[i].price %></h3>
         <p><%= models[i].description %></p>
-        <div style="display:inline-block;">
-          <label for="shoe-sz">Size:</label>
-          <select name="shoe-size" id="shoe-size" style="margin-left:5px;">
-            <option value="0">---</option>
-            <option value="4">43.5</option>
-            <option value="5">44</option>
-            <option value="6">45.5</option>
-            <option value="7">45</option>
-          </select>
-          <button name="button" style="margin-left:40px;"> Add to Cart </button>
-        </div>
       </div>
     <%}%>
 </div>
