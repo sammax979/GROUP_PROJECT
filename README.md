@@ -20,35 +20,26 @@ We have used the following technologies/libraries/packages for this application:
 * Helmet - to secure Express apps by setting HTTP response headers.
 * Cookie-parser - to parse HTTP request cookies
 * Commander - to parse command line parameters.
-* Jsonwebtoken
+* Jsonwebtoken - to securely transmit tokens.
 * Cors - to control access to resources on different domains.
 * Dotenv -to store and access securely app parameters, API keys, passwords.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 <!-- GETTING STARTED -->
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Clone this repositorie
-...
-
-### Install dependencies
-...
-
-### Set environment
-Edit .env file.
-
-### Create DB and load test data
-Run this command from application home directiory:
+### Installation
+1. Clone this repository.
+2. Install dependencies by running 'npm install <package name>' for all packages `from package.json`.
+3. Set environment parameters (PORT and database storage location) by edit `.env` file.
+4. Run this command from application home directiory to create data base and load test data.
 ```sh
 node ./bin/index.js --init
 ```
-
-### Run application.
+<img src="./db_schema.jpeg" alt="DB schema" width="100%">### Run application.
 Run this command home directiory:
 ```sh
 npm start
@@ -64,7 +55,6 @@ node ./bin/index.js
 ## DB structure
 Here is the database structure:
 <img src="./db_schema.jpeg" alt="DB schema" width="100%">
-
 ## Authors
 
 Alexander Z. & Semyon M.

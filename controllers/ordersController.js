@@ -6,6 +6,7 @@ const { Brand } = require("../models/index");
 
 const HttpError = require("../services/HttpError");
 
+// select all Orders
 const gettingAll = async (req, res, next) => {
   try {
     const order = await Order.findAll();
@@ -18,6 +19,7 @@ const gettingAll = async (req, res, next) => {
   }
 };
 
+// insert a new Oredr record
 const creating = async (req, res, next) => {
   try {
     const { date, userId } = req.body;
@@ -26,7 +28,7 @@ const creating = async (req, res, next) => {
     }
     const order = await Order.create({ date, userId });
     if (!order) {
-      return next(new HttpError("Problem creating Order", 500));
+      return next(new HttpError("Error creating Order", 500));
     }
     res.status(201).json(order); 
   } catch (err) {
@@ -34,6 +36,7 @@ const creating = async (req, res, next) => {
   }
 };
 
+// select one Order by Id
 const getting = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -47,7 +50,7 @@ const getting = async (req, res, next) => {
   }
 };
 
-
+// apdate an Order
 const updating = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -61,7 +64,7 @@ const updating = async (req, res, next) => {
     if (updated === 0) {
       return next(new HttpError("Order not found or no updates made", 404));
     }
-    res.status(200).json("Updated successfully");
+    res.status(200).json("Oredr updated successfully");
   } catch (err) {
     next(err);
   }
@@ -72,24 +75,28 @@ const deleting = async (req, res, next) => {
     const id = req.params.id;
 
     // check OrderId in table OrderItem
-    const orderItem = await OrderItem.findOne({ where: { orderId: id } });
-    if ( orderItem ) {
-      //return res.status(500).json({ message: "Cannot delete Order because it is associated with OrderItem. First you need to delete OrderId in OrderItem" });
-      const delItems = await OrderItem.destroy({ where: { orderId: id } });  
-    }    
+    // const orderItem = await OrderItem.findOne({ where: { orderId: id } });
+    //     if ( orderItem ) {
+    // return res.status(500).json({ message: "Cannot delete Order because it is associated with OrderItem. First you need to delete OrderId in OrderItem" });
+    // }    
+
+    // delete child OrderItems
+    const deletedItems = await OrderItem.destroy({ where: { orderId: id } });  
     
+    // delete Order record
     const deleted = await Order.destroy({ where: { id } });
     if (deleted === 0) {
       return next(
         new HttpError("Order not found or could not be deleted", 404)
       );
     }
-    res.status(200).json("Deleted successfully");
+    res.status(200).json(`Successfully deleted order #${id} and its ${deletedItems} Order Items.`);
   } catch (err) {
     next(err);
   }
 };
 
+// select all OrderItems
 const allItems = async (req, res, next) => {
   try {
     const id = req.params.id;
