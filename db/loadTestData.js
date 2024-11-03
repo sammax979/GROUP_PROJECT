@@ -140,20 +140,16 @@ const enterData = async () => {
                    await Stock.create({ size: "44", count: 4, ModelId: model7.id });
 
     // create Order
-    const order = await Order.create({ 
+    const order1 = await Order.create({ 
         UserId: user1.id,
     });
 
-    // create OrderItem
-    await OrderItem.create({
-        price: 85,
-        count: 1,
-        OrderId: order.id, 
-        StockId: stock3.id, 
-    });
+    // create OrderItems
+    await OrderItem.create({ price:  85, count: 1, OrderId: order1.id, StockId: stock3.id, });
+    await OrderItem.create({ price: 180, count: 1, OrderId: order1.id, StockId: stock6.id, });
 
-     // create Order2
-       const order2 = await Order.create({ 
+    // create Order2
+    const order2 = await Order.create({ 
         UserId: user1.id,
     });
 

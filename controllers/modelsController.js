@@ -16,19 +16,26 @@ const gettingAll = async (req, res, next) => {
   }
 };
 
-// create a new Model
+// create a new Model record
 const creating = async (req, res, next) => {
   try {
-    const { name, description, image, BrandId } = req.body;
+    const { name, description, image, brandId } = req.body;
 
-    if (!name || !description || !image || !BrandId) {
+    if (!name || !description || !image || !brandId) {
       return next(new HttpError("Not enough data for creating model", 400));
     }
+    // chack if there is a Brand record with given brandId
+    const brand = await Brand.findByPk(brandId);
+    if (!brand) {
+      return next(new HttpError("Couldn't find brand with given Id", 404));
+    }
+
+    // OK - insert a new Model record
     const model = await Model.create({
-      name,
-      description,
-      image,
-      BrandId,
+      name: name,
+      description: description,
+      image: image,
+      BrandId: brandId,
     });
 
     res.status(201).json(model);
@@ -55,8 +62,8 @@ const getting = async (req, res, next) => {
     // });
 
     if (!model) {
-    return next(new HttpError("Couldn't find model", 404));
-  }
+      return next(new HttpError("Couldn't find model", 404));
+    }
     res.status(200).json(model);
   } catch (err) {
     next(err);

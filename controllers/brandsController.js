@@ -1,6 +1,21 @@
 const { Brand } = require("../models/index");
 const HttpError = require("../services/HttpError");
 
+// get Brand by Id
+const getting = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const brand = await Brand.findByPk(id);
+    if (!brand) {
+      return next(new HttpError("Couldn't find brand", 404));
+    }
+    res.status(200).json(brand);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// select all Brands
 const gettingAll = async (req, res, next) => {
   try {
     const brands = await Brand.findAll();
@@ -13,6 +28,7 @@ const gettingAll = async (req, res, next) => {
   }
 };
 
+// create a new Brand record
 const creating = async (req, res, next) => {
   try {
     const { name } = req.body;
@@ -24,19 +40,6 @@ const creating = async (req, res, next) => {
       return next(new HttpError("Problem creating Brand", 500));
     }
     res.status(201).json(brand); 
-  } catch (err) {
-    next(err);
-  }
-};
-
-const getting = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const brand = await Brand.findByPk(id);
-    if (!brand) {
-      return next(new HttpError("Couldn't find brand", 404));
-    }
-    res.status(200).json(brand);
   } catch (err) {
     next(err);
   }

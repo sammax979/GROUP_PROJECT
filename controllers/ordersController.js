@@ -1,3 +1,4 @@
+const { User } = require("../models/index");
 const { Order } = require("../models/index");
 const { OrderItem } = require("../models/index");
 const { Stock } = require("../models/index");
@@ -5,6 +6,20 @@ const { Model } = require("../models/index");
 const { Brand } = require("../models/index");
 
 const HttpError = require("../services/HttpError");
+
+// select one Order by Id
+const getting = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const order = await Order.findByPk(id);
+    if (!order) {
+      return next(new HttpError("Couldn't find order", 404));
+    }
+    res.status(200).json(order);
+  } catch (err) {
+    next(err);
+  }
+};
 
 // select all Orders
 const gettingAll = async (req, res, next) => {
@@ -19,32 +34,24 @@ const gettingAll = async (req, res, next) => {
   }
 };
 
-// insert a new Oredr record
+// insert a new Order record
 const creating = async (req, res, next) => {
   try {
     const { date, userId } = req.body;
-    if (!date || !userId ) {
-      return next(new HttpError("Not enough data for creating Order", 400));
+    if (!date || !userId) {
+      return next(new HttpError("Not enough data for creating Order", 500));
     }
-    const order = await Order.create({ date, userId });
+    // cheack if there is an existing User with userId
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return next(new HttpError("Couldn't find user with given Id", 404));
+    }
+    // OK - create a new Order entry
+    const order = await Order.create({ date: date, UserId: userId });
     if (!order) {
       return next(new HttpError("Error creating Order", 500));
     }
     res.status(201).json(order); 
-  } catch (err) {
-    next(err);
-  }
-};
-
-// select one Order by Id
-const getting = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const order = await Order.findByPk(id);
-    if (!order) {
-      return next(new HttpError("Couldn't find order", 404));
-    }
-    res.status(200).json(order);
   } catch (err) {
     next(err);
   }
@@ -70,6 +77,7 @@ const updating = async (req, res, next) => {
   }
 };
 
+// delete an Order with all its OrderItems if there are any
 const deleting = async (req, res, next) => {
   try {
     const id = req.params.id;
