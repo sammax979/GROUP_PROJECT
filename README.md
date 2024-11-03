@@ -25,6 +25,7 @@ We have used the following technologies/libraries/packages for this application:
 * Dotenv -to store and access securely app parameters, API keys, passwords.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -33,13 +34,15 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 1. Clone this repository.
-2. Install dependencies by running 'npm install <package name>' for all packages `from package.json`.
+2. Install dependencies by running `npm install <package name>` for all packages `from package.json`.
 3. Set environment parameters (PORT and database storage location) by edit `.env` file.
 4. Run this command from application home directiory to create data base and load test data.
 ```sh
 node ./bin/index.js --init
 ```
-<img src="./db_schema.jpeg" alt="DB schema" width="100%">### Run application.
+<img src="./db_schema.jpeg" alt="DB schema" width="100%">
+
+### Run application.
 Run this command home directiory:
 ```sh
 npm start
@@ -50,11 +53,15 @@ node ./bin/index.js
 ```
 
 ## Usage
-...
+You can run the application in two ways:
+* There is and html interface that can be accessed at `http://localhost:PORT/www/`
+* And there is API available at `http://localhost:PORT/api/`
+* For using ans API you need to login first.
 
 ## DB structure
 Here is the database structure:
 <img src="./db_schema.jpeg" alt="DB schema" width="100%">
+
 ## Authors
 
 Alexander Z. & Semyon M.
