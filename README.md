@@ -40,7 +40,6 @@ To get a local copy up and running follow these simple example steps.
 ```sh
 node ./bin/index.js --init
 ```
-<img src="./db_schema.jpeg" alt="DB schema" width="100%">
 
 ### Run application.
 Run this command home directiory:
@@ -51,6 +50,7 @@ or
 ```sh
 node ./bin/index.js
 ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
 You can run the application in two ways:
